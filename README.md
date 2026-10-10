@@ -2,7 +2,7 @@
 
 AsciiDoc Files opens the `.adoc` and `.asciidoc` files in your vault in their own tab. You get a source editor with AsciiDoc highlighting, a rendered preview, or both side by side. The preview uses Asciidoctor.js, the official JavaScript port of Asciidoctor, so headings, tables, admonitions, lists, footnotes and source blocks look the way your other AsciiDoc tools render them.
 
-The editor, the preview, cross reference links and code colors are free. Pro resolves `include::` directives from the vault, adds a side panel with the outline and the links of a document, and exports standalone HTML files. Pro costs $5 a month or $15 once, through GitHub Sponsors.
+The editor, the preview, cross reference links and code colors are free. Pro resolves `include::` directives from the vault, adds a side panel with the outline and the links of a document, and exports standalone HTML files. Pro costs $5 a month, or $15 once, through GitHub Sponsors. When you have paid $15 in total, Pro stays on.
 
 ## Features
 

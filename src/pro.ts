@@ -15,7 +15,7 @@ export const SPONSORS: SponsorsConfig = {
 
 export const PRO_UI = {
 	proSummary: 'Pro resolves include directives from the vault, adds the outline and links panel, and exports HTML files.',
-	priceText: 'Sponsor $5 a month or $15 once.',
+	priceText: 'Sponsor $5 a month, or $15 once. When you have paid $15 in total, Pro stays on.',
 };
 
 // The one facade every Pro check goes through (Phase 4 rule). main.ts binds the manager in onload.
