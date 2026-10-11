@@ -54,7 +54,7 @@ Run "Open the outline and links panel" to get a side panel for the AsciiDoc tab 
 
 When AsciiDoc Files is listed in the community directory, open Settings, then Community plugins, then Browse, and search for "AsciiDoc Files". Select Install, then Enable.
 
-To install by hand, download `main.js`, `manifest.json` and `styles.css` from the latest release. Put the three files in `<vault>/.obsidian/plugins/asciidoc-files/`. Reload the list of community plugins, then turn on AsciiDoc Files.
+To install by hand, put `main.js`, `manifest.json` and `styles.css` from the latest release in `<vault>/.obsidian/plugins/asciidoc-files/`, then turn on the plugin.
 
 Only one plugin can open a file type. Turn off any other AsciiDoc plugin first. If another plugin already has `.adoc`, AsciiDoc Files shows a notice and the settings tab names the extension. The plugin needs Obsidian 1.13.4 or newer. It was tested on desktop with 1.13.4 and the latest version. It uses no desktop-only API, so it also loads on mobile, but mobile is not tested yet.
 
@@ -64,7 +64,7 @@ Only one plugin can open a file type. Turn off any other AsciiDoc plugin first. 
 2. Switch modes with the tab header buttons, or with "Switch between source and preview" and "Show source and preview side by side".
 3. For Pro, sponsor on GitHub, then open the settings and select "Sign in with GitHub".
 
-The plugin sets no default hotkeys. You can give any command a hotkey in Settings, then Hotkeys.
+The plugin sets no default hotkeys.
 
 ## Settings
 
@@ -104,7 +104,9 @@ The core features are free and stay free. Pro features need a GitHub Sponsors sp
 
 GitHub handles the payment. Sponsor at https://github.com/sponsors/theluckystrike. You need no account for the free features. Pro needs the GitHub account that sponsors.
 
-Until you select "Sign in with GitHub" in the settings, AsciiDoc Files makes no network requests. Sign in uses the GitHub device flow. AsciiDoc Files sends its public client ID and the scope `read:user` to `https://github.com/login/device/code` and shows you a code. While you enter the code at https://github.com/login/device, it asks `https://github.com/login/oauth/access_token` every few seconds whether sign in is done. The scope `read:user` is read-only access to your profile, which GitHub needs to show the sponsorship tier. It gives no access to repositories and no write access.
+The preview loads web media that a document names. For `image::https://example.com/a.png[]`, the preview asks that address for the file, with or without Pro, and that host sees the request. A relative path reads a vault file and sends nothing.
+
+Until you select "Sign in with GitHub" in the settings, AsciiDoc Files makes no network requests of its own. Sign in uses the GitHub device flow. AsciiDoc Files sends its public client ID and the scope `read:user` to `https://github.com/login/device/code` and shows you a code. While you enter the code at https://github.com/login/device, it asks `https://github.com/login/oauth/access_token` every few seconds whether sign in is done. The scope `read:user` is read-only access to your profile, which GitHub needs to show the sponsorship tier. It gives no access to repositories and no write access.
 
 After sign in, AsciiDoc Files sends one query to `https://api.github.com/graphql`: does the signed-in account sponsor theluckystrike, at which tier, and how much it has paid theluckystrike in total. It asks again at most once every 7 days, or when you select Refresh. It sends no note content, file names or other vault data, and it has no telemetry.
 

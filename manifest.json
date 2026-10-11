@@ -1,7 +1,7 @@
 {
 	"id": "asciidoc-files",
 	"name": "AsciiDoc Files",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "1.13.4",
 	"description": "Opens and edits AsciiDoc files in the vault with a highlighted source editor and a safe rendered preview.",
 	"author": "Michael Lip",
