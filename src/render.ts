@@ -34,7 +34,10 @@ function stem(path: string): string {
 	return dot > 0 ? name.slice(0, dot) : name;
 }
 
-/** Converts AsciiDoc to embeddable HTML (no head, no scripts from Asciidoctor). */
+/**
+ * Converts AsciiDoc to embeddable HTML (no head, no scripts from Asciidoctor). Passthrough HTML of the document is
+ * in the result as it is, so each caller sanitizes it: the preview with the app, the export with adoc/sanitize.
+ */
 export async function convert(input: ConvertInput): Promise<ConvertOutput> {
 	const p = await load();
 	// A fresh memory logger per document: warnings go under the preview, not to the developer console.

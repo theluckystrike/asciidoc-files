@@ -1,5 +1,6 @@
-// Standalone HTML page for the export (pure). The page has no script and loads nothing from the network:
-// the stylesheet is inline and the body is the Asciidoctor output of the document.
+// Standalone HTML page for the export (pure). The page adds no script and no remote stylesheet or font: the
+// stylesheet is inline. The body is the Asciidoctor output of the document, which the caller passes through
+// sanitizeHtml (./sanitize) first, because Asciidoctor keeps passthrough HTML as it is.
 import { withExt } from './paths';
 
 export function escapeHtml(s: string): string {

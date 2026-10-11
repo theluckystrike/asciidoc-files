@@ -1,5 +1,11 @@
 # asciidoc-files
 
+## 1.0.3
+
+### Patch Changes
+
+- 656a1d9: Export to HTML and copy as HTML now remove scripts, event handlers, unsafe links, frames, forms and embedded objects that a document holds in passthrough HTML.
+
 ## 1.0.2
 
 ### Patch Changes

@@ -5,6 +5,7 @@ import ASCIIDOCTOR_CSS from '../node_modules/@asciidoctor/core/dist/css/asciidoc
 import { exportPath, standalonePage } from './adoc/export';
 import { expandIncludes, expandWithReader, type ExpandResult } from './adoc/includes';
 import { ADOC_EXTENSIONS, extOf, isAdocPath, withExt } from './adoc/paths';
+import { sanitizeHtml } from './adoc/sanitize';
 import { LINKS_VIEW_TYPE, LinksView } from './links-view';
 import { SPONSORS, bindPro, isPro, onProChange } from './pro';
 import { convert } from './render';
@@ -232,13 +233,16 @@ export default class AsciidocFilesPlugin extends Plugin {
 		return Object.keys(resolved).filter((from) => from !== path && (resolved[from]?.[path] ?? 0) > 0).sort();
 	}
 
-	/** Export conversion: includes resolved, xrefs to other documents end in .html. */
+	/**
+	 * Export conversion: includes resolved, xrefs to other documents end in .html. The file and the clipboard leave
+	 * the app, so the HTML is sanitized here, for both commands (Asciidoctor keeps passthrough HTML as it is).
+	 */
 	private async exportBody(view: AsciidocView): Promise<{ html: string; title: string; lang: string | null } | null> {
 		const file = view.file;
 		if (!file) return null;
 		const expanded = await this.expand(view.data, file.path);
 		const out = await convert({ text: expanded.text, path: file.path, target: 'export' });
-		return { html: out.html, title: out.title ?? file.basename, lang: out.lang };
+		return { html: sanitizeHtml(out.html), title: out.title ?? file.basename, lang: out.lang };
 	}
 
 	async exportHtml(view: AsciidocView): Promise<string | null> {

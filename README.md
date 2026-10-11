@@ -14,7 +14,7 @@ The editor, the preview, cross reference links and code colors are free. Pro res
 
 Click an `.adoc` file in the file explorer and it opens in the preview. Section titles, tables, admonitions, sidebars, quotes, callouts, keyboard keys and the table of contents use the colors and fonts of your theme, in light and dark mode. Source blocks get the same code colors as Markdown notes.
 
-Asciidoctor warnings, such as a reference to a missing attribute, show in a small list under the preview. They never fill the developer console.
+Asciidoctor warnings, such as a reference to a missing attribute, show in a small list under the preview.
 
 ### Source editor with highlighting
 
@@ -22,7 +22,7 @@ Asciidoctor warnings, such as a reference to a missing attribute, show in a smal
 
 The source editor is CodeMirror 6, the same editor the app uses for notes. It highlights titles, attribute entries, block delimiters, comments, lists, admonition labels, macros and inline marks. Undo, redo and the usual text keys work. The file saves as you type, and in side by side mode the preview follows after a short delay.
 
-Use the buttons in the tab header to switch between preview, source, and source with preview. Each tab keeps its own mode.
+Each tab keeps its own mode.
 
 ### Cross references open the target
 
@@ -34,7 +34,7 @@ Use the buttons in the tab header to switch between preview, source, and source 
 
 <img src="https://raw.githubusercontent.com/theluckystrike/asciidoc-files/HEAD/docs/includes.png" alt="Chapters and a tagged part of a shell script come in through include directives" width="720">
 
-With Pro, `include::chapters/install.adoc[]` shows the included file in place. The path is relative to the file that holds the directive, and a path that starts with `/` starts at the vault root. If the file is not next to the source, the plugin also tries the same path from the vault root, which suits a shared folder of partials.
+With Pro, `include::chapters/install.adoc[]` shows the included file in place. The path is relative to the file that holds the directive, and a path that starts with `/` starts at the vault root. If the file is not next to the source, the plugin also tries the same path from the vault root.
 
 The directive options that matter for documentation work: `leveloffset`, `lines`, `tag` and `tags` (with `!name`, `*` and `**`), `indent` and `opts=optional`. Attribute references such as `{snippets}/deploy.sh` use the attributes set above the directive. A missing file, a file that includes itself, and a chain deeper than the depth setting each show a clear note instead of breaking the page. Without Pro, each directive shows a short note.
 
@@ -48,7 +48,9 @@ Run "Open the outline and links panel" to get a side panel for the AsciiDoc tab 
 
 <img src="https://raw.githubusercontent.com/theluckystrike/asciidoc-files/HEAD/docs/export.png" alt="The export notice and the new HTML file next to the AsciiDoc source in the file explorer" width="720">
 
-"Export the current file to HTML" writes `Handbook.html` next to `Handbook.adoc`, with the includes resolved and the Asciidoctor default stylesheet inside the file. Cross references to other documents point to their `.html` files, so a folder of exports links up. The page has no script and loads no fonts from the web. To make a PDF, open the HTML file in a browser and print it. "Copy the current file as HTML" puts the HTML body on the clipboard for a CMS or an email.
+"Export the current file to HTML" writes `Handbook.html` next to `Handbook.adoc`, with the includes resolved and the Asciidoctor default stylesheet inside the file. Cross references to other documents point to their `.html` files, so a folder of exports links up. To make a PDF, open the HTML file in a browser and print it. "Copy the current file as HTML" puts the HTML body on the clipboard for a CMS or an email.
+
+Both commands remove scripts and other active content first (see the FAQ). The page loads no fonts from the web.
 
 ## Install
 
@@ -86,9 +88,9 @@ If a saved value is out of range, the plugin moves it to the nearest allowed val
 
 Only in part, and this is a limit of the app. Core search, the backlinks pane, the outgoing links pane and the graph read Markdown files only. A plugin cannot add other file types to them without private API. The files show in the file explorer and the quick switcher, and a Markdown link such as `[[Handbook.adoc]]` works. The Pro links panel lists AsciiDoc cross references in both directions.
 
-### Is the preview safe for files from other people?
+### Are files from other people safe to preview and export?
 
-Asciidoctor runs in safe mode, so a document cannot read files or URLs. The HTML then goes through the sanitizer of the app, which removes scripts, event handlers and `javascript:` links, also inside passthrough blocks. The end-to-end test checks this with a hostile sample file.
+Asciidoctor runs in safe mode, so a document cannot read files or URLs. In the preview, the sanitizer of the app removes scripts, event handlers and `javascript:` links, also inside passthrough blocks. The export and the copy leave the app, so an allow list in the plugin also removes frames, forms, embedded objects, inline SVG, style blocks and `data:` links. The frame of a `video::` macro becomes a plain link.
 
 ### Why is main.js so large?
 
@@ -124,7 +126,7 @@ npm run build
 npm test
 ```
 
-The tests check golden cases for include expansion, outline and cross reference parsing, link handling and the export page. An end-to-end test opens AsciiDoc files in Obsidian, edits one, follows a cross reference, checks the sanitizer and checks the Pro lock with a stubbed GitHub reply.
+The tests check golden cases for include expansion, outline and cross reference parsing, link handling, the export page and the export sanitizer. An end-to-end test opens AsciiDoc files in Obsidian, edits one, follows a cross reference, checks the preview sanitizer and the Pro lock with a stubbed GitHub reply.
 
 ## License
 
