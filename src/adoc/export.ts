@@ -7,9 +7,18 @@ export function escapeHtml(s: string): string {
 	return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-/** Vault path of the export: the source path with the extension ".html". */
-export function exportPath(sourcePath: string): string {
-	return withExt(sourcePath, 'html');
+/** Vault path of the export: the source path with the extension ".html". n > 0 gives "name n.html". */
+export function exportPath(sourcePath: string, n = 0): string {
+	const path = withExt(sourcePath, 'html');
+	return n > 0 ? `${path.slice(0, -'.html'.length)} ${n}.html` : path;
+}
+
+/** The generator name of an exported page. */
+export const GENERATOR = 'AsciiDoc Files';
+
+/** True when `text` is a page that standalonePage wrote, so a new export can replace it. */
+export function isOwnExport(text: string): boolean {
+	return text.startsWith('<!DOCTYPE html>') && text.includes(`<meta name="generator" content="${GENERATOR}">`);
 }
 
 /** Removes remote @import rules from a stylesheet so the page makes no request for fonts. */
@@ -34,7 +43,7 @@ export function standalonePage(input: PageInput): string {
 		'<head>',
 		'<meta charset="UTF-8">',
 		'<meta name="viewport" content="width=device-width, initial-scale=1.0">',
-		`<meta name="generator" content="${escapeHtml(input.generator ?? 'AsciiDoc Files')}">`,
+		`<meta name="generator" content="${escapeHtml(input.generator ?? GENERATOR)}">`,
 		`<title>${escapeHtml(input.title)}</title>`,
 		`<style>\n${localCss(input.css).trim()}\n</style>`,
 		'</head>',

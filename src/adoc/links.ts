@@ -11,7 +11,7 @@ export type LinkTarget = { kind: 'anchor'; fragment: string } | { kind: 'externa
 export function classifyHref(href: string | null, fromPath: string): LinkTarget {
 	const h = (href ?? '').trim();
 	if (!h) return { kind: 'none' };
-	if (h.startsWith('#')) return h.length > 1 ? { kind: 'anchor', fragment: decodeURIComponent(h.slice(1)) } : { kind: 'none' };
+	if (h.startsWith('#')) return h.length > 1 ? { kind: 'anchor', fragment: safeDecode(h.slice(1)) } : { kind: 'none' };
 	if (isUrl(h)) return /^(https?|mailto|obsidian):/i.test(h) ? { kind: 'external', url: h } : { kind: 'none' };
 	const hash = h.indexOf('#');
 	const file = safeDecode(hash < 0 ? h : h.slice(0, hash));

@@ -42,7 +42,7 @@ A[Edit source] --> B[Run tests]
 ----
 ```
 
-The app renders diagrams locally, with no diagram server or Pro account. The app can ask you to allow diagrams in the vault. Edit the source to update the preview after the preview delay. If a diagram cannot render, the preview shows a note and keeps its source. HTML export and copy keep the source as code.
+The app renders diagrams locally, with no diagram server or Pro account. The app can ask you to allow diagrams in the vault. If a diagram cannot render, the preview shows a note and keeps its source. HTML export and copy keep the source as code.
 
 ### Includes from the vault (Pro)
 
@@ -56,13 +56,13 @@ The directive options: `leveloffset`, `lines`, `tag` and `tags` (with `!name`, `
 
 <img src="https://raw.githubusercontent.com/theluckystrike/asciidoc-files/HEAD/docs/links-panel.png" alt="The side panel with the outline, the includes, the cross references with one missing target, and the files that link here" width="720">
 
-Run "Open the outline and links panel" to get a side panel for the AsciiDoc tab in focus. It lists the section outline, the includes and their status, every cross reference with missing targets in red, and the files that point to this one: xrefs and includes in other AsciiDoc files, and `[[Handbook.adoc]]` links in Markdown notes. Click an entry to go there.
+Run "Open the outline and links panel" to get a side panel for the AsciiDoc tab in focus. It lists the section outline, the includes and their status, the cross references of the document with missing targets in red, and the files that point to this one: xrefs and includes in other AsciiDoc files, and `[[Handbook.adoc]]` links in Markdown notes. The panel reads up to 2,000 AsciiDoc files. Click an entry to go there.
 
 ### HTML export and copy (Pro)
 
 <img src="https://raw.githubusercontent.com/theluckystrike/asciidoc-files/HEAD/docs/export.png" alt="The export notice and the new HTML file next to the AsciiDoc source in the file explorer" width="720">
 
-"Export the current file to HTML" writes `Handbook.html` next to `Handbook.adoc`, with the includes resolved and the Asciidoctor default stylesheet inside the file. Cross references to other documents point to their `.html` files, so a folder of exports links up. To make a PDF, open the HTML file in a browser and print it. "Copy the current file as HTML" puts the HTML body on the clipboard for a CMS or an email.
+"Export the current file to HTML" writes `Handbook.html` next to `Handbook.adoc`, with the Asciidoctor default stylesheet inside the file. With "Resolve include directives" on, the includes are resolved. If a `Handbook.html` that the plugin did not write is there, the export goes to `Handbook 1.html`. Cross references to other documents point to their `.html` files, so a folder of exports links up. To make a PDF, open the HTML file in a browser and print it. "Copy the current file as HTML" puts the HTML body on the clipboard for a CMS or an email.
 
 Both commands remove scripts and other active content first (see the FAQ). The page loads no fonts from the web.
 
@@ -72,7 +72,7 @@ After the community listing goes live, open Settings, Community plugins, Browse.
 
 Copy `main.js`, `manifest.json` and `styles.css` from the latest release into `<vault>/.obsidian/plugins/asciidoc-files/`. Enable the plugin.
 
-Only one plugin can open a file type. Turn off any other AsciiDoc plugin first. If another plugin already has `.adoc`, AsciiDoc Files shows a notice and the settings tab names the extension. The plugin needs Obsidian 1.13.4 or newer. It was tested on desktop with 1.13.4 and the latest version. It uses no desktop-only API, so it also loads on mobile, but mobile is not tested yet.
+Only one plugin can open a file type. Turn off any other AsciiDoc plugin first. If another plugin already has `.adoc`, AsciiDoc Files shows a notice and the settings tab names the extension. The plugin needs Obsidian 1.13.4 or newer. It was tested on desktop with 1.13.4 and the latest version. Mobile is not tested yet.
 
 ## Usage
 

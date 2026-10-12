@@ -2,7 +2,7 @@ import { Notice, Plugin, TFile, TFolder, normalizePath, type WorkspaceLeaf } fro
 import type { SponsorsManager } from './license/index';
 import { createGitHubSponsors, guardSponsorsPro } from './license/github-obsidian';
 import ASCIIDOCTOR_CSS from '../node_modules/@asciidoctor/core/dist/css/asciidoctor.css';
-import { exportPath, standalonePage } from './adoc/export';
+import { exportPath, isOwnExport, standalonePage } from './adoc/export';
 import { expandIncludes, expandWithReader, type ExpandResult } from './adoc/includes';
 import { ADOC_EXTENSIONS, extOf, isAdocPath, withExt } from './adoc/paths';
 import { sanitizeHtml } from './adoc/sanitize';
@@ -157,9 +157,10 @@ export default class AsciidocFilesPlugin extends Plugin {
 	/** Include expansion for the preview and the export: resolved with Pro, notes without. */
 	async expand(source: string, path: string): Promise<ExpandResult> {
 		if (!isPro() || !this.settings.includes) return expandIncludes(source, path, {}, { resolve: false });
+		// A file that fails to read counts as missing, so one bad include does not stop the render.
 		const read = async (p: string): Promise<string | null> => {
 			const f = this.app.vault.getFileByPath(p);
-			return f ? this.app.vault.cachedRead(f) : null;
+			return f ? this.app.vault.cachedRead(f).catch(() => null) : null;
 		};
 		return expandWithReader(source, path, read, { resolve: true, maxDepth: this.settings.depth });
 	}
@@ -250,12 +251,27 @@ export default class AsciidocFilesPlugin extends Plugin {
 		const body = await this.exportBody(view);
 		if (!file || !body) return null;
 		const page = standalonePage({ title: body.title, body: body.html, css: this.settings.exportCss ? ASCIIDOCTOR_CSS : '', lang: body.lang ?? undefined });
-		const path = exportPath(file.path);
+		const path = await this.exportTarget(file.path);
+		if (!path) {
+			new Notice(`No free name for the export of ${file.path}.`);
+			return null;
+		}
 		const existing = this.app.vault.getFileByPath(path);
 		if (existing) await this.app.vault.modify(existing, page);
 		else await this.app.vault.create(path, page);
 		new Notice(`Exported to ${path}`);
 		return path;
+	}
+
+	/** The first export name that is free or holds an earlier export. A file that the plugin did not write stays. */
+	private async exportTarget(sourcePath: string): Promise<string | null> {
+		for (let n = 0; n < 1000; n++) {
+			const path = exportPath(sourcePath, n);
+			const existing = this.app.vault.getAbstractFileByPath(path);
+			if (!existing) return path;
+			if (existing instanceof TFile && isOwnExport(await this.app.vault.read(existing))) return path;
+		}
+		return null;
 	}
 
 	async copyHtml(view: AsciidocView): Promise<void> {

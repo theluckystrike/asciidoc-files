@@ -1,5 +1,11 @@
 # asciidoc-files
 
+## 1.1.1
+
+### Patch Changes
+
+- 705f2ca: HTML export no longer overwrites an HTML file that the plugin did not write, a link with a bad percent escape no longer throws, an include that fails to read shows as missing, and the README claims match the code.
+
 ## 1.1.0
 
 ### Minor Changes
