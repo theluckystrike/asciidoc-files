@@ -1,5 +1,11 @@
 # asciidoc-files
 
+## 1.1.0
+
+### Minor Changes
+
+- dc8a87d: Show Mermaid diagrams in the free AsciiDoc preview and keep their source in HTML exports.
+
 ## 1.0.4
 
 ### Patch Changes

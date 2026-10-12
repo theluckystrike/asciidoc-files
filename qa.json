@@ -15,6 +15,14 @@
 		"wait": 1200
 	},
 	{
+		"feature": "mermaid",
+		"caption": "The free preview shows a Mermaid flowchart and a sequence diagram.",
+		"note": "Diagrams.adoc",
+		"eval": "(async () => { app.workspace.rightSplit.collapse(); const p = app.plugins.plugins['asciidoc-files']; p.pro.signOut(); await new Promise((r) => setTimeout(r, 700)); const v = app.workspace.getMostRecentLeaf().view; v.setMode('preview'); await v.render(); v.previewEl.querySelectorAll('.adoc-mermaid button').forEach((b) => { if (b.textContent === 'Allow') b.click(); }); for (let i = 0; i < 100 && v.previewEl.querySelectorAll('.adoc-mermaid svg[aria-roledescription]').length !== 2; i++) await new Promise((r) => setTimeout(r, 100)); if (v.previewEl.querySelectorAll('.adoc-mermaid svg[aria-roledescription]').length !== 2) throw new Error('Expected two Mermaid diagrams'); v.previewEl.scrollTop = 0; return 'ok'; })()",
+		"wait": 1200,
+		"zoom": 0.8
+	},
+	{
 		"feature": "xref",
 		"caption": "A click on the exit codes cross reference opens the command reference at that section.",
 		"note": "Handbook.adoc",
@@ -41,7 +49,7 @@
 		"feature": "export",
 		"caption": "Pro: Export the current file to HTML writes Handbook.html next to the source.",
 		"note": "Handbook.adoc",
-		"eval": "(async () => { const sleep = (ms) => new Promise((r) => setTimeout(r, ms)); const p = app.plugins.plugins['asciidoc-files']; p.pro.opts.http = async () => ({ status: 200, json: { data: { viewer: { login: 'demo-reader' }, user: { sponsorshipForViewerAsSponsor: { isActive: true, isOneTimePayment: false, tier: { name: '$5 a month', monthlyPriceInCents: 500 } } } } } }); app.secretStorage.setSecret('asciidoc-files-github-token', 'gho_' + '0'.repeat(36)); await p.pro.refreshNow(); await sleep(900); const v = app.workspace.getMostRecentLeaf().view; app.vault.setConfig('showUnsupportedFiles', true); const path = await app.plugins.plugins['asciidoc-files'].exportHtml(v); await sleep(400); const fe = app.workspace.getLeavesOfType('file-explorer')[0]; const f = app.vault.getFileByPath(path); if (fe && f) { app.workspace.leftSplit.expand(); fe.view.revealInFolder(f); } await sleep(600); return 'ok'; })()",
+		"eval": "(async () => { const sleep = (ms) => new Promise((r) => setTimeout(r, ms)); const p = app.plugins.plugins['asciidoc-files']; p.pro.opts.http = async () => ({ status: 200, json: { data: { viewer: { login: 'demo-reader' }, user: { sponsorshipForViewerAsSponsor: { isActive: true, isOneTimePayment: false, tier: { name: '$5 a month', monthlyPriceInCents: 500 } } } } } }); app.secretStorage.setSecret('asciidoc-files-github-token', 'gho_' + '0'.repeat(36)); await p.pro.refreshNow(); await sleep(900); const v = app.workspace.getMostRecentLeaf().view; app.vault.setConfig('showUnsupportedFiles', true); const path = await app.plugins.plugins['asciidoc-files'].exportHtml(v); await sleep(400); const fe = app.workspace.getLeavesOfType('file-explorer')[0]; const f = app.vault.getFileByPath(path); if (fe && f) await app.workspace.revealLeaf(fe); await sleep(600); return 'ok'; })()",
 		"after": "(async () => { const f = app.vault.getFileByPath('AsciiDoc Files/Handbook.html'); if (f) await app.vault.delete(f); app.plugins.plugins['asciidoc-files'].pro.signOut(); return 'ok'; })()",
 		"wait": 1000
 	},

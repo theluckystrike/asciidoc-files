@@ -1,8 +1,8 @@
 # AsciiDoc Files
 
-AsciiDoc Files opens the `.adoc` and `.asciidoc` files in your vault in their own tab. You get a source editor with AsciiDoc highlighting, a rendered preview, or both side by side. The preview uses Asciidoctor.js, the official JavaScript port of Asciidoctor, so headings, tables, admonitions, lists, footnotes and source blocks look the way your other AsciiDoc tools render them.
+AsciiDoc Files opens `.adoc` and `.asciidoc` files in their own tab. Use the source editor, the rendered preview, or both side by side. The preview uses Asciidoctor.js for headings, tables, admonitions, lists, footnotes and source blocks.
 
-The editor, the preview, cross reference links and code colors are free. Pro resolves `include::` directives from the vault, adds a side panel with the outline and the links of a document, and exports standalone HTML files. Pro costs $5 a month, or $15 once, through GitHub Sponsors. A total payment of $15 meets the payment requirement for Pro without further payment. Sign-in and the checks below still apply.
+The editor, the preview, cross reference links, code colors and Mermaid diagrams are free. Pro resolves `include::` directives from the vault, adds a side panel with the outline and the links of a document, and exports standalone HTML files. Pro costs $5 a month, or $15 once, through GitHub Sponsors. A total payment of $15 meets the payment requirement for Pro without further payment. Sign-in and the checks below still apply.
 
 ## Features
 
@@ -20,9 +20,7 @@ Asciidoctor warnings, such as a reference to a missing attribute, show in a smal
 
 <img src="https://raw.githubusercontent.com/theluckystrike/asciidoc-files/HEAD/docs/source.png" alt="Source and preview side by side, with highlighted titles, attributes, blocks and macros on the left" width="720">
 
-The source editor is CodeMirror 6, the same editor the app uses for notes. It highlights titles, attribute entries, block delimiters, comments, lists, admonition labels, macros and inline marks. Undo, redo and the usual text keys work. The file saves as you type, and in side by side mode the preview follows after a short delay.
-
-Each tab keeps its own mode.
+The CodeMirror 6 editor highlights titles, attributes, block delimiters, comments, lists, admonition labels, macros and inline marks. Undo and redo work. The file saves as you type. In side by side mode, the preview follows after a short delay.
 
 ### Cross references open the target
 
@@ -30,13 +28,29 @@ Each tab keeps its own mode.
 
 <img src="https://raw.githubusercontent.com/theluckystrike/asciidoc-files/HEAD/docs/xref.png" alt="The command reference opened from a cross reference, scrolled to the exit codes" width="720">
 
+### Mermaid diagrams
+
+<img src="https://raw.githubusercontent.com/theluckystrike/asciidoc-files/HEAD/docs/mermaid.png" alt="An AsciiDoc release flow with a Mermaid flowchart and a sequence diagram" width="720">
+
+Put `[mermaid]` above a listing block to show a diagram in the preview. `[source,mermaid]`, `[,mermaid]`, `[mermaid,target,svg]` and a `....` literal block also work.
+
+```asciidoc
+[mermaid]
+----
+flowchart LR
+A[Edit source] --> B[Run tests]
+----
+```
+
+The app renders diagrams locally, with no diagram server or Pro account. The app can ask you to allow diagrams in the vault. Edit the source to update the preview after the preview delay. If a diagram cannot render, the preview shows a note and keeps its source. HTML export and copy keep the source as code.
+
 ### Includes from the vault (Pro)
 
 <img src="https://raw.githubusercontent.com/theluckystrike/asciidoc-files/HEAD/docs/includes.png" alt="Chapters and a tagged part of a shell script come in through include directives" width="720">
 
 With Pro, `include::chapters/install.adoc[]` shows the included file in place. The path is relative to the file that holds the directive, and a path that starts with `/` starts at the vault root. If the file is not next to the source, the plugin also tries the same path from the vault root.
 
-The directive options that matter for documentation work: `leveloffset`, `lines`, `tag` and `tags` (with `!name`, `*` and `**`), `indent` and `opts=optional`. Attribute references such as `{snippets}/deploy.sh` use the attributes set above the directive. A missing file, a file that includes itself, and a chain deeper than the depth setting each show a clear note instead of breaking the page. Without Pro, each directive shows a short note.
+The directive options: `leveloffset`, `lines`, `tag` and `tags` (with `!name`, `*` and `**`), `indent` and `opts=optional`. Attribute references such as `{snippets}/deploy.sh` use the attributes set above the directive. A missing file, a file that includes itself, and a chain deeper than the depth setting each show a clear note instead of breaking the page. Without Pro, each directive shows a short note.
 
 ### Outline and links panel (Pro)
 
@@ -66,8 +80,6 @@ Only one plugin can open a file type. Turn off any other AsciiDoc plugin first. 
 2. Switch modes with the tab header buttons, or with "Switch between source and preview" and "Show source and preview side by side".
 3. For Pro, sponsor on GitHub, then open the settings and select "Sign in with GitHub".
 
-The plugin sets no default hotkeys.
-
 ## Settings
 
 <img src="https://raw.githubusercontent.com/theluckystrike/asciidoc-files/HEAD/docs/settings.png" alt="Settings with the Pro section, the open mode, the preview delay and the Pro options for includes and exports" width="720">
@@ -80,8 +92,6 @@ The plugin sets no default hotkeys.
 | Include depth | 8 | 1 to 8 levels (Pro) |
 | Stylesheet in exports | On | On or off (Pro) |
 
-If a saved value is out of range, the plugin moves it to the nearest allowed value.
-
 ## FAQ
 
 ### Do search, backlinks and the graph see my AsciiDoc files?
@@ -91,10 +101,6 @@ Only in part, and this is a limit of the app. Core search, the backlinks pane, t
 ### Are files from other people safe to preview and export?
 
 Asciidoctor runs in safe mode, so a document cannot read files or URLs. In the preview, the sanitizer of the app removes scripts, event handlers and `javascript:` links, also inside passthrough blocks. The export and the copy leave the app, so an allow list in the plugin also removes frames, forms, embedded objects, inline SVG, style blocks and `data:` links. The frame of a `video::` macro becomes a plain link.
-
-### Why is main.js so large?
-
-Asciidoctor.js is about 0.8 MB minified. It loads the first time you open an AsciiDoc file, not when the app starts.
 
 ### Are Antora ids and URL includes supported?
 
@@ -126,7 +132,7 @@ npm run build
 npm test
 ```
 
-The tests check golden cases for include expansion, outline and cross reference parsing, link handling, the export page and the export sanitizer. An end-to-end test opens AsciiDoc files in Obsidian, edits one, follows a cross reference, checks the preview sanitizer and the Pro lock with a stubbed GitHub reply.
+The tests check golden cases for diagram blocks, include expansion, outline and cross reference parsing, link handling, the export page and the export sanitizer. An end-to-end test opens AsciiDoc files in Obsidian, edits one, follows a cross reference, checks the preview sanitizer and the Pro lock with a stubbed GitHub reply.
 
 ## License
 

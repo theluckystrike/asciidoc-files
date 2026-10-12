@@ -1,5 +1,5 @@
 // The tab for an AsciiDoc file: CodeMirror source, rendered preview, or both side by side.
-import { Keymap, TextFileView, loadPrism, sanitizeHTMLToDom, setIcon, type ViewStateResult, type WorkspaceLeaf } from 'obsidian';
+import { Component, Keymap, TextFileView, loadPrism, sanitizeHTMLToDom, setIcon, type ViewStateResult, type WorkspaceLeaf } from 'obsidian';
 import type { EditorView } from '@codemirror/view';
 import { createEditor, revealLine, setEditorText } from './editor';
 import type { IncludeRecord } from './adoc/includes';
@@ -7,6 +7,7 @@ import { classifyHref } from './adoc/links';
 import { extractOutline } from './adoc/outline';
 import { dirOf, isUrl, joinPath } from './adoc/paths';
 import { convert } from './render';
+import { renderMermaidBlocks } from './mermaid';
 import type { ViewMode } from './settings';
 import type AsciidocFilesPlugin from './main';
 
@@ -32,6 +33,7 @@ export class AsciidocView extends TextFileView {
 	private splitAction: HTMLElement | null = null;
 	private timer = 0;
 	private seq = 0;
+	private previewComponent: Component | null = null;
 	private onEdit = (text: string): void => {
 		this.data = text;
 		this.requestSave();
@@ -70,7 +72,9 @@ export class AsciidocView extends TextFileView {
 	}
 
 	async onClose(): Promise<void> {
+		++this.seq;
 		window.clearTimeout(this.timer);
+		this.clearPreviewComponent();
 		this.editor?.destroy();
 		this.editor = null;
 		await super.onClose();
@@ -99,6 +103,9 @@ export class AsciidocView extends TextFileView {
 	}
 
 	clear(): void {
+		++this.seq;
+		window.clearTimeout(this.timer);
+		this.clearPreviewComponent();
 		this.data = '';
 		this.includes = [];
 		this.expanded = '';
@@ -144,16 +151,27 @@ export class AsciidocView extends TextFileView {
 			frag = createFragment((f) => f.createEl('p', { cls: 'adoc-error', text: `The preview failed: ${e instanceof Error ? e.message : String(e)}` }));
 		}
 		if (seq !== this.seq) return;
+		this.clearPreviewComponent();
+		const component = this.addChild(new Component());
+		this.previewComponent = component;
 		this.fixImages(frag, file.path);
 		this.previewEl.empty();
 		this.previewEl.append(frag);
 		if (warnings.length) this.showWarnings(warnings);
 		this.includes = expanded.includes;
 		this.expanded = expanded.text;
+		await renderMermaidBlocks(this.app, this.previewEl, file.path, component, () => seq === this.seq, () => void this.render());
+		if (seq !== this.seq) return;
 		await this.highlightCode();
+		if (seq !== this.seq) return;
 		const pending = this.plugin.takePendingAnchor(file.path);
 		if (pending) this.scrollToId(pending);
 		this.plugin.refreshLinksSoon();
+	}
+
+	private clearPreviewComponent(): void {
+		if (this.previewComponent) this.removeChild(this.previewComponent);
+		this.previewComponent = null;
 	}
 
 	private showWarnings(warnings: string[]): void {

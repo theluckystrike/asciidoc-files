@@ -294,6 +294,11 @@
 	color: var(--text-error);
 }
 
+.adoc-preview .adoc-mermaid {
+	overflow: auto;
+	margin-block: var(--size-4-4);
+}
+
 .adoc-preview .adoc-warnings {
 	margin-block-start: var(--size-4-8);
 	color: var(--text-muted);

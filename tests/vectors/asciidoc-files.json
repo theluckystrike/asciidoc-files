@@ -387,5 +387,115 @@
     "wanted": []
    }
   }
- ]
+ ],
+ "mermaid": {
+  "module": "asciidoc-files/src/adoc/mermaid",
+  "function": "prepareMermaid",
+  "cases": [
+   {
+    "name": "a diagram block gets a source language",
+    "args": [
+     "[mermaid]\n----\nflowchart LR\nA --> B\n----"
+    ],
+    "expected": "[source,mermaid]\n----\nflowchart LR\nA --> B\n----"
+   },
+   {
+    "name": "a source diagram keeps its attributes",
+    "args": [
+     "[source,mermaid,linenums]\n----\nA --> B\n----"
+    ],
+    "expected": "[source,mermaid,linenums]\n----\nA --> B\n----"
+   },
+   {
+    "name": "a diagram example inside a listing stays literal",
+    "args": [
+     "----\n[mermaid]\n-----\nx\n-----\n----"
+    ],
+    "expected": "----\n[mermaid]\n-----\nx\n-----\n----"
+   },
+   {
+    "name": "a diagram in a comment is not changed",
+    "args": [
+     "////\n[mermaid]\n----\nx\n----\n////"
+    ],
+    "expected": "////\n[mermaid]\n----\nx\n----\n////"
+   },
+   {
+    "name": "a diagram in a passthrough is not changed",
+    "args": [
+     "++++\n[mermaid]\n----\nx\n----\n++++"
+    ],
+    "expected": "++++\n[mermaid]\n----\nx\n----\n++++"
+   },
+   {
+    "name": "a style without a listing stays unchanged",
+    "args": [
+     "[mermaid]\nText."
+    ],
+    "expected": "[mermaid]\nText."
+   },
+   {
+    "name": "CRLF is kept",
+    "args": [
+     "[mermaid]\r\n----\r\nA --> B\r\n----"
+    ],
+    "expected": "[source,mermaid]\r\n----\r\nA --> B\r\n----"
+   },
+   {
+    "name": "a diagram after a listing still gets a language",
+    "args": [
+     "----\nx\n----\n\n[mermaid]\n----\nA --> B\n----"
+    ],
+    "expected": "----\nx\n----\n\n[source,mermaid]\n----\nA --> B\n----"
+   },
+   {
+    "name": "a diagram block with target and format attributes gets a source language",
+    "args": [
+     "[mermaid,release-flow,svg]\n----\nA --> B\n----"
+    ],
+    "expected": "[source,mermaid]\n----\nA --> B\n----"
+   },
+   {
+    "name": "a diagram in a literal block gets a source language",
+    "args": [
+     "[mermaid]\n....\nA --> B\n...."
+    ],
+    "expected": "[source,mermaid]\n....\nA --> B\n...."
+   },
+   {
+    "name": "a title between the style and the listing is kept",
+    "args": [
+     "[mermaid]\n.Release flow\n----\nA --> B\n----"
+    ],
+    "expected": "[source,mermaid]\n.Release flow\n----\nA --> B\n----"
+   },
+   {
+    "name": "a similar style name stays unchanged",
+    "args": [
+     "[mermaidjs]\n----\nA --> B\n----"
+    ],
+    "expected": "[mermaidjs]\n----\nA --> B\n----"
+   }
+  ]
+ },
+ "mermaidMarkdown": {
+  "module": "asciidoc-files/src/adoc/mermaid",
+  "function": "mermaidMarkdown",
+  "cases": [
+   {
+    "name": "normal source is in one code fence",
+    "args": [
+     "flowchart LR\nA --> B"
+    ],
+    "expected": "```mermaid\nflowchart LR\nA --> B\n```"
+   },
+   {
+    "name": "embedded fences cannot insert Markdown",
+    "args": [
+     "A\n```\n<script>x()</script>\n````"
+    ],
+    "expected": "`````mermaid\nA\n```\n<script>x()</script>\n````\n`````"
+   }
+  ]
+ }
 }

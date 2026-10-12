@@ -2,6 +2,7 @@
 // Safe mode "safe": no file system access, no include from disk, no URI read. esbuild.config.mjs also removes the two
 // synchronous XMLHttpRequest readers and the string eval path from the bundled library (see stubAsciidoctor there).
 import type { Asciidoctor } from '@asciidoctor/core';
+import { prepareMermaid } from './adoc/mermaid';
 
 export interface ConvertInput {
 	text: string;
@@ -54,7 +55,7 @@ export async function convert(input: ConvertInput): Promise<ConvertOutput> {
 		'allow-uri-read!': '',
 		'webfonts!': '',
 	};
-	const doc = p.load(input.text, { safe: 'safe', standalone: false, attributes });
+	const doc = p.load(prepareMermaid(input.text), { safe: 'safe', standalone: false, attributes });
 	const html = doc.convert();
 	const title = doc.getDocumentTitle({ sanitize: true }) as string | undefined;
 	const lang = doc.getAttribute('lang') as string | undefined;
