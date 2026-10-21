@@ -2,7 +2,7 @@
 
 AsciiDoc Files opens `.adoc` and `.asciidoc` files in their own tab. Use the source editor, the rendered preview, or both side by side. The preview uses Asciidoctor.js for headings, tables, admonitions, lists, footnotes and source blocks.
 
-The editor, the preview, cross reference links, code colors and Mermaid diagrams are free. Pro resolves `include::` directives from the vault, adds a side panel with the outline and the links of a document, and exports standalone HTML files. Pro costs $5 a month, or $15 once, through GitHub Sponsors. A total payment of $15 meets the payment requirement for Pro without further payment. Sign-in and the checks below still apply.
+The editor, the preview, cross reference links, code colors and Mermaid diagrams are free. Pro resolves `include::` directives from the vault, adds a side panel with the outline and the links of a document, and exports standalone HTML files. Pro costs $5 a month, or $15 once, through GitHub Sponsors.
 
 ## Features
 
@@ -42,7 +42,7 @@ A[Edit source] --> B[Run tests]
 ----
 ```
 
-The app renders diagrams locally, with no diagram server or Pro account. The app can ask you to allow diagrams in the vault. If a diagram cannot render, the preview shows a note and keeps its source. HTML export and copy keep the source as code.
+The app renders diagrams locally, with no diagram server. The app can ask you to allow diagrams in the vault. If a diagram cannot render, the preview shows a note and keeps its source. HTML export and copy keep the source as code.
 
 ### Includes from the vault (Pro)
 
@@ -68,7 +68,7 @@ Both commands remove scripts and other active content first (see the FAQ). The p
 
 ## Install
 
-After the community listing goes live, open Settings, Community plugins, Browse. Search for "AsciiDoc Files". Select Install, then Enable.
+Open Settings, Community plugins, Browse. Search for "AsciiDoc Files". Select Install, then Enable.
 
 Copy `main.js`, `manifest.json` and `styles.css` from the latest release into `<vault>/.obsidian/plugins/asciidoc-files/`. Enable the plugin.
 
@@ -81,6 +81,8 @@ Only one plugin can open a file type. Turn off any other AsciiDoc plugin first. 
 3. For Pro, sponsor on GitHub, then open the settings and select "Sign in with GitHub".
 
 ## Settings
+
+After a minor or major update, this plugin opens one What's new tab in the background. The tab and settings card suggest other NoteMods plugins and Zovo Chat and link to notemods.com for feedback ([privacy](https://notemods.com/privacy/)). The tab sends no data. Turn the tab off in Settings.
 
 <img src="https://raw.githubusercontent.com/theluckystrike/asciidoc-files/HEAD/docs/settings.png" alt="Settings with the Pro section, the open mode, the preview delay and the Pro options for includes and exports" width="720">
 
@@ -96,7 +98,7 @@ Only one plugin can open a file type. Turn off any other AsciiDoc plugin first. 
 
 ### Do search, backlinks and the graph see my AsciiDoc files?
 
-Only in part, and this is a limit of the app. Core search, the backlinks pane, the outgoing links pane and the graph read Markdown files only. A plugin cannot add other file types to them without private API. The files show in the file explorer and the quick switcher, and a Markdown link such as `[[Handbook.adoc]]` works. The Pro links panel lists AsciiDoc cross references in both directions.
+Only in part, and this is a limit of the app. Core search, the backlinks pane, the outgoing links pane and the graph read Markdown files only. A plugin cannot add other file types to them without private API. The files show in the file explorer and the quick switcher, and a Markdown link such as `[[Handbook.adoc]]` works.
 
 ### Are files from other people safe to preview and export?
 
@@ -131,8 +133,6 @@ npm ci
 npm run build
 npm test
 ```
-
-The tests check golden cases for diagram blocks, include expansion, outline and cross reference parsing, link handling, the export page and the export sanitizer. An end-to-end test opens AsciiDoc files in Obsidian, edits one, follows a cross reference, checks the preview sanitizer and the Pro lock with a stubbed GitHub reply.
 
 ## License
 

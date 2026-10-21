@@ -3,6 +3,7 @@ import { sponsorsSettingItems } from './license/github-obsidian';
 import { MAX_DEPTH } from './adoc/includes';
 import { PRO_UI } from './pro';
 import type AsciidocFilesPlugin from './main';
+import { helloSettingItems } from './hello/settings';
 
 export type ViewMode = 'preview' | 'source' | 'split';
 
@@ -53,6 +54,11 @@ export class AsciidocFilesSettingTab extends PluginSettingTab {
 	}
 
 	getSettingDefinitions(): SettingDefinitionItem[] {
+		// The product rows, then the "More from NoteMods" card (packages/hello).
+		return [...this.productSettingDefinitions(), ...helloSettingItems()];
+	}
+
+	productSettingDefinitions(): SettingDefinitionItem[] {
 		return [
 			...(this.plugin.pro ? sponsorsSettingItems(this.plugin.pro, PRO_UI) : []),
 			{
