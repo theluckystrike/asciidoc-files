@@ -137,3 +137,7 @@ The tests check golden cases for diagram blocks, include expansion, outline and 
 ## License
 
 MIT. The bundled Asciidoctor.js 3.0.4, its Opal runtime and the Asciidoctor default stylesheet are MIT licensed by their authors.
+
+## Community
+
+Questions, bugs or plugin ideas? Talk to me and other Obsidian users in [Zovo Chat](https://t.me/+k2MM-BIc7SQ5OWM0) on Telegram. It has a topic for these plugins. You can also open an issue here.
