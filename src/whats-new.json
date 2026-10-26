@@ -1,16 +1,9 @@
 {
 	"id": "asciidoc-files",
 	"name": "AsciiDoc Files",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"changes": [
-		"New Send feedback command. It opens a page where you can report a problem or suggest an idea.",
-		"HTML export no longer overwrites an HTML file that the plugin did not write.",
-		"A link with a bad percent escape no longer throws."
-	],
-	"changes_user": [
-		"New Send feedback command. It opens a page where you can report a problem or suggest an idea.",
-		"HTML export (Pro) no longer overwrites an HTML file that the plugin did not create.",
-		"A link or image path with a stray % sign no longer causes an error."
+		"The AsciiDoc Files notice for a Pro feature now has a Sponsor on GitHub button."
 	],
 	"tip": "Hold Ctrl or Cmd as you click a cross reference to open its target in a new tab.",
 	"thanks": "Hi, I am Michael, a solo developer in Poland. AsciiDoc Files is one of over 100 small plugins that I make. Thank you for keeping your AsciiDoc files in Obsidian.",

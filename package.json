@@ -1,7 +1,6 @@
 {
 	"name": "asciidoc-files",
-	"repository": {"type": "git", "url": "theluckystrike/asciidoc-files.git"},
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"private": true,
 	"description": "Opens AsciiDoc files in the vault with a source editor and a rendered preview, with includes, an outline and HTML export.",
 	"main": "main.js",
