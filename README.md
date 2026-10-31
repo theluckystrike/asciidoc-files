@@ -112,7 +112,7 @@ No. Antora ids such as `partial$intro.adoc` need the Antora site structure. URL 
 
 The core features are free. Pro features need a GitHub Sponsors sponsorship of theluckystrike: $5 a month or more, or $15 once. A total payment of $15 meets the payment requirement for Pro without further payment. Sign-in and the checks below still apply. Your notes stay readable and editable with or without Pro.
 
-GitHub handles the payment. Sponsor at https://github.com/sponsors/theluckystrike. You need no account for the free features. Pro needs the GitHub account that sponsors.
+GitHub handles the payment. Sponsor at https://github.com/sponsors/theluckystrike?frequency=one-time&metadata_source=asciidoc-files. You need no account for the free features. Pro needs the GitHub account that sponsors.
 
 The preview loads web media that a document names. For `image::https://example.com/a.png[]`, the preview asks that address for the file, with or without Pro, and that host sees the request. A relative path reads a vault file and sends nothing.
 
