@@ -2,7 +2,7 @@
 
 AsciiDoc Files opens `.adoc` and `.asciidoc` files in their own tab. Use the source editor, the rendered preview, or both side by side. The preview uses Asciidoctor.js for headings, tables, admonitions, lists, footnotes and source blocks.
 
-The editor, the preview, cross reference links, code colors and Mermaid diagrams are free. Pro resolves `include::` directives from the vault, adds a side panel with the outline and the links of a document, and exports standalone HTML files. Pro costs $5 a month, or $15 once, through GitHub Sponsors.
+The editor, the preview, cross reference links, code colors and Mermaid diagrams are free. Pro resolves `include::` directives from the vault, adds a side panel with the outline and the links of a document, and exports standalone HTML files.
 
 ## Features
 
@@ -111,6 +111,8 @@ No. Antora ids such as `partial$intro.adoc` need the Antora site structure. URL 
 ## Payment, account and network
 
 The core features are free. Pro features need a GitHub Sponsors sponsorship of theluckystrike: $5 a month or more, or $15 once. A total payment of $15 meets the payment requirement for Pro without further payment. Sign-in and the checks below still apply. Your notes stay readable and editable with or without Pro.
+
+[One payment turns on Pro in every NoteMods plugin](https://notemods.com/pro/).
 
 GitHub handles the payment. Sponsor at https://github.com/sponsors/theluckystrike?frequency=one-time&metadata_source=asciidoc-files. You need no account for the free features. Pro needs the GitHub account that sponsors.
 
