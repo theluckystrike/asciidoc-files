@@ -1,8 +1,9 @@
 {
 	"id": "asciidoc-files",
 	"name": "AsciiDoc Files",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"changes": [
+		"The Pro notice of AsciiDoc Files now says that one payment turns on Pro in every NoteMods plugin.",
 		"The AsciiDoc Files notice for a Pro feature now has a Sponsor on GitHub button."
 	],
 	"tip": "Hold Ctrl or Cmd as you click a cross reference to open its target in a new tab.",

@@ -1,5 +1,11 @@
 # asciidoc-files
 
+## 1.2.2
+
+### Patch Changes
+
+- 371e979: The Pro notice of AsciiDoc Files now says that one payment turns on Pro in every NoteMods plugin.
+
 ## 1.2.1
 
 ### Patch Changes
