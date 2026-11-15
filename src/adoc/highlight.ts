@@ -1,5 +1,6 @@
 // Line tokenizer for the AsciiDoc source editor (pure). The editor turns spans into CodeMirror mark decorations.
 import { NO_BLOCK, isLineComment, stepBlock, type BlockState } from './blocks';
+import { matchAlts, type Alt } from './no-lookbehind';
 
 export interface Span {
 	from: number;
@@ -7,25 +8,27 @@ export interface Span {
 	cls: string;
 }
 
-const INLINE: { re: RegExp; cls: string }[] = [
+// strong and em had a lookbehind before the single mark (no lookbehind on iOS before 16.4). They are alternatives now.
+const INLINE: { re?: RegExp; alts?: Alt[]; cls: string }[] = [
 	{ re: /\b(?:xref|link|image|include|kbd|btn|menu|footnote|anchor|pass|stem|latexmath|asciimath):{1,2}[^\s[]*\[[^\]]*\]/g, cls: 'macro' },
 	{ re: /\bhttps?:\/\/[^\s[<>]+(?:\[[^\]]*\])?/g, cls: 'url' },
 	{ re: /<<[^<>]+>>/g, cls: 'xref' },
 	{ re: /\[\[[^\]]+\]\]/g, cls: 'anchor' },
 	{ re: /\{[\w-]+\}/g, cls: 'attr-ref' },
 	{ re: /`[^`\n]+`/g, cls: 'mono' },
-	{ re: /(?<![\w*])\*[^*\s](?:[^*]*[^*\s])?\*(?![\w*])|\*\*[^*]+\*\*/g, cls: 'strong' },
-	{ re: /(?<![\w_])_[^_\s](?:[^_]*[^_\s])?_(?![\w_])|__[^_]+__/g, cls: 'em' },
+	{ alts: [{ re: /\*[^*\s](?:[^*]*[^*\s])?\*(?![\w*])/, notAfter: /[\w*]/ }, { re: /\*\*[^*]+\*\*/ }], cls: 'strong' },
+	{ alts: [{ re: /_[^_\s](?:[^_]*[^_\s])?_(?![\w_])/, notAfter: /[\w_]/ }, { re: /__[^_]+__/ }], cls: 'em' },
 	{ re: /#[^#\s](?:[^#]*[^#\s])?#/g, cls: 'mark' },
 ];
 
 /** Inline spans of a text line, first match wins on overlap. */
 export function inlineSpans(line: string, offset = 0): Span[] {
 	const spans: Span[] = [];
-	for (const { re, cls } of INLINE) {
-		for (const m of line.matchAll(re)) {
-			const from = (m.index ?? 0) + offset;
-			const to = from + m[0].length;
+	for (const { re, alts, cls } of INLINE) {
+		const found = alts ? matchAlts(line, alts) : [...line.matchAll(re!)].map((m) => ({ index: m.index ?? 0, text: m[0] }));
+		for (const m of found) {
+			const from = m.index + offset;
+			const to = from + m.text.length;
 			if (!spans.some((s) => from < s.to && to > s.from)) spans.push({ from, to, cls });
 		}
 	}

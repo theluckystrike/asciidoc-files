@@ -205,7 +205,8 @@ export class AsciidocView extends TextFileView {
 	}
 
 	private onPreviewClick(evt: MouseEvent): void {
-		const a = evt.target instanceof Element ? evt.target.closest('a') : null;
+		const node = evt.targetNode;
+		const a = node?.instanceOf(Element) ? node.closest('a') : null;
 		if (!a || !this.file) return;
 		const t = classifyHref(a.getAttribute('href'), this.file.path);
 		evt.preventDefault();

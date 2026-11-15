@@ -2,6 +2,7 @@
 // Auto ids follow the Asciidoctor defaults: idprefix "_", idseparator "_", lower case, duplicates get _2, _3.
 import { NO_BLOCK, isLineComment, stepBlock, type BlockState } from './blocks';
 import { dirOf, extOf, isUrl, joinPath } from './paths';
+import { replaceAlts, type Alt } from './no-lookbehind';
 
 export interface Section {
 	/** 0 = document title, 1 = "==", up to 5. */
@@ -42,12 +43,13 @@ const XREF_ANGLE = /<<([^<>,\s][^<>,]*?)(?:,\s*([^<>]*?))?>>/g;
 const LEVEL_OFFSET = /^:leveloffset(?:!:|:\s*([+-]?\d+)?)\s*$/;
 const XREF_MACRO = /\bxref:([^\s[]+)\[([^\]]*)\]/g;
 
+/** Runs of formatting marks not after a word character or backslash, or not before a word character (no lookbehind, iOS 16.3). */
+export const MARK_RUNS: Alt[] = [{ re: /[*_`#~^]+/, notAfter: /[\w\\]/ }, { re: /[*_`#~^]+(?!\w)/ }];
+
 /** Plain text of a title: drops inline formatting marks, passthroughs and tags. */
 export function plainTitle(title: string): string {
-	return title
-		.replace(/<[^>]+>/g, '')
-		.replace(/\+\+?\+?([^+]*)\+?\+?\+/g, '$1')
-		.replace(/(?<![\w\\])[*_`#~^]+|[*_`#~^]+(?!\w)/g, '')
+	const unpassed = title.replace(/<[^>]+>/g, '').replace(/\+\+?\+?([^+]*)\+?\+?\+/g, '$1');
+	return replaceAlts(unpassed, MARK_RUNS, () => '')
 		.replace(/\s+/g, ' ')
 		.trim();
 }

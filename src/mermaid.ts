@@ -51,7 +51,7 @@ export async function renderMermaidBlocks(app: App, root: HTMLElement, path: str
 			if (result === 'prompt') {
 				// The app refreshes Markdown views after Allow. Refresh this file view too.
 				const onClick = (evt: MouseEvent): void => {
-					if (evt.target instanceof Element && evt.target.closest('button')) queueMicrotask(() => { if (current()) refresh(); });
+					if (evt.targetNode?.instanceOf(Element) && evt.targetNode.closest('button')) queueMicrotask(() => { if (current()) refresh(); });
 				};
 				diagram.addEventListener('click', onClick, true);
 				component.register(() => diagram.removeEventListener('click', onClick, true));

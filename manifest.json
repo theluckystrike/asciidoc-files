@@ -1,7 +1,7 @@
 {
 	"id": "asciidoc-files",
 	"name": "AsciiDoc Files",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"minAppVersion": "1.13.4",
 	"description": "Open AsciiDoc files in a tab with a source editor and a rendered preview. Adds AsciiDoc support for adoc files, with cross reference links, code colors and Mermaid diagrams.",
 	"author": "Michael Lip",
